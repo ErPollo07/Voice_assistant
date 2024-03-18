@@ -11,13 +11,17 @@ lang = "it-It"
 
 engine = init()
 voices = engine.getProperty("voices") # get all the voices
+for i in range(len(voices)):
+    print(voices[i])
 engine.setProperty("voices", voices[0]) # set the first voice like the main one
 r = Recognizer() # create the recognizer obj
+
 
 # this function trasform to speech what Roberto have to say
 def say(text):
     engine.say(text)
     engine.runAndWait()
+
 
 # This function is to handle the request which the user can do
 # and returning the right response
@@ -43,6 +47,7 @@ def replay_to_request(req):
 
     return response
 
+
 # catch the audio from the user and return it as a string
 def audio_to_text(source):
     e = True
@@ -57,6 +62,7 @@ def audio_to_text(source):
     
     return text
 
+
 # Main loop
 while True:
     with Microphone() as source:
@@ -67,13 +73,17 @@ while True:
         if "roberto" in user_audio:
             say("Mi dica")
             print("Sto ascoltando")
+            
+            # listen to request
             user_audio = audio_to_text(source)
             
+            # replay to request
             response = replay_to_request(user_audio)
         
             if response == "esci":
                 break
             else:
                 say(response)
+            
         
         
